@@ -1,7 +1,8 @@
 <div id='signin'>
   <h1>signin</h1>
-  <form name="signinForm" ng-submit='signin()'>
-    <input type='text'ng-model='user.username'>
+  <form name="signinForm" ng-submit='signin()' novalidate>
+    <input type='text'ng-model='user.username' name="username" required
+      ng-class="{error:signinForm.username.$invalid && signinForm.username.$dirty}">
     <input type="password" ng-model='user.password'>
     <button>signin</button>
   </form>

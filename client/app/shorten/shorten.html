@@ -2,7 +2,22 @@
 <!-- Your code here -->
   <div class="creator">
 
-    <input type="url" ng-model="link"><button ng-click="addAndReroute()">Add</button>
+    <form novalidate name="shortener">
+
+      <input type="url"
+             name="url"
+             ng-model="link"
+             required
+             placeholder="Enter url here"
+             ng-class="{error:shortener.url.$invalid && shortener.url.$dirty}">
+      <input type="submit" ng-click="addAndReroute()"
+              ng-show="shortener.url.$valid && shortener.url.$dirty"
+              value="Add">
+
+      <p ng-if="shortener.$invalid && shortener.$dirty"> Form invalid! </p>
+
+    </form>
+
 
   </div>
 

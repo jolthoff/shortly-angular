@@ -8,10 +8,10 @@ angular.module('shortly', [
 ])
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider
-    // .when( '/', {
-    //   templateUrl: 'app/auth/links.html',
-    //   controller: 'LinksController'
-    // })
+    .when( '/', {
+      templateUrl: 'app/links/links.html',
+      controller: 'LinksController'
+    })
     .when( '/shorten', {
       templateUrl: 'app/shorten/shorten.html',
       controller: 'ShortenController'
@@ -67,5 +67,4 @@ angular.module('shortly', [
       $location.path('/signin');
     }
   });
-  $rootScope.isAuth = Auth.isAuth( );
 });

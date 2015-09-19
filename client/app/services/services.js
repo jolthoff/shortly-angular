@@ -1,24 +1,22 @@
 angular.module('shortly.services', [])
 
-.factory('Links', function ($http, $window) {
+.factory('Links', function ($http, $window, AttachTokens ) {
 
-  var request = function( method, callback, data ) {
+  var request = function( method, callback, data, url ) {
 
-    $http({
+    url = url || '/';
+
+    var request = {
 
       'method': method,
 
-      url: 'http://127.0.0.1:8000/api/links/',
+      url: '/api/links' + url,
 
-      'data': data,
+      'data': data
 
-      headers: {
+    };
 
-        'x-access-token': $window.localStorage.getItem('com.shortly')
-
-      }
-
-    }).then( function( response ) {
+    $http(request).then( function( response ) {
 
       callback( null, response.data );
 
@@ -46,13 +44,15 @@ angular.module('shortly.services', [])
 
       request( 'POST', callback, { url: link } );
 
-    }
+    },
+
+    'request': request
 
   };
   
 })
 
-.factory('Auth', function ($http, $location, $window) {
+.factory('Auth', function ($http, $location, $window, $rootScope) {
   // Don't touch this Auth service!!!
   // it is responsible for authenticating our user
   // by exchanging the user's username and password
@@ -67,6 +67,7 @@ angular.module('shortly.services', [])
       data: user
     })
     .then(function (resp) {
+      $rootScope.isAuth = true;
       return resp.data.token;
     });
   };
@@ -78,11 +79,13 @@ angular.module('shortly.services', [])
       data: user
     })
     .then(function (resp) {
+      $rootScope.isAuth = true;
       return resp.data.token;
     });
   };
 
   var isAuth = function () {
+    $rootScope.isAuth = !!$window.localStorage.getItem('com.shortly');
     return !!$window.localStorage.getItem('com.shortly');
   };
 
