@@ -85,6 +85,7 @@ h1 {
 }
 
 .link .original {
+  display: inline-block;
   color: #aaa;
   font-size: 12px;
 }

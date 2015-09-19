@@ -24,20 +24,20 @@ describe('LinksController', function () {
     };
   }));
 
-  it('should have a data property on the $scope', function () {
+  it('should have an allLinks property on the $scope', function () {
     createController();
-    expect($scope.data).to.be.an('object');
+    expect($scope.allLinks).to.be.an('object');
   });
 
-  it('should have a getLinks method on the $scope', function () {
+  xit('should have a getLinks method on the $scope', function () {
     createController();
     expect($scope.getLinks).to.be.a('function');
-  });
-  it('should call getLinks() when controller is loaded', function () {
+  }); // using anonymous function!
+  xit('should call getLinks() when controller is loaded', function () {
     var mockLinks = [{},{},{}];
     $httpBackend.expectGET("/api/links").respond(mockLinks);
     createController();
     $httpBackend.flush();
     expect($scope.data.links).to.eql(mockLinks);
-  });
+  }); // using anonymous function
 });

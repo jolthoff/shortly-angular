@@ -8,10 +8,20 @@ angular.module('shortly.links', [])
   //imagine the space
   (function() { //fetch all links from mongoDB
     //so pretty
-    $scope.allLinks = Links.fetch().sort(function(linkA, linkB) {
+    Links.fetch(function(error, links) {
 
-      return linkA.visits - linkB.visits;
-      
+      if (error) {
+
+        throw error;
+
+      }
+
+      $scope.allLinks = links.sort(function(linkA, linkB) {
+
+        return linkA.visits - linkB.visits;
+
+      });
+
     });
     //more whitespace
   })();
