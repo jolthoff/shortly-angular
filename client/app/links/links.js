@@ -16,6 +16,8 @@ angular.module('shortly.links', [])
 
       }
 
+      console.log( links );
+
       $scope.allLinks = links.sort(function(linkA, linkB) {
 
         return linkA.visits - linkB.visits;
@@ -28,7 +30,7 @@ angular.module('shortly.links', [])
 
   $scope.filteredArray = function() {
 
-    return allLinks.filter(function(link) {
+    return $scope.allLinks.filter(function(link) {
 
       return link.title.test(new RegExp($scope.filterString)) || 
 

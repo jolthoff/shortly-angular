@@ -3,10 +3,23 @@ angular.module('shortly', [
   'shortly.links',
   'shortly.shorten',
   'shortly.auth',
+  'shortly.navigation',
   'ngRoute'
 ])
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider
+    .when( '/', {
+      templateUrl: 'app/auth/navigation.html',
+      controller: 'NavigationController'
+    })
+    .when( '/shorten', {
+      templateUrl: 'app/auth/navigation.html',
+      controller: 'NavigationController'
+    })
+    .when( '/links', {
+      templateUrl: 'app/auth/navigation.html',
+      controller: 'NavigationController'
+    })
     .when('/signin', {
       templateUrl: 'app/auth/signin.html',
       controller: 'AuthController'

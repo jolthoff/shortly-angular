@@ -1,9 +1,64 @@
 angular.module('shortly.services', [])
 
 .factory('Links', function ($http) {
-  // Your code here
+
+  var request = function( method, callback, data ) {
+
+    $http({
+
+      'method': method,
+
+      url: 'http://127.0.0.1:8000/',
+
+      'data': data
+
+    }).then( function( response ) {
+
+      var data = '';
+
+      response.on('data', function( chunk ) {
+        data += chunk;
+      });
+
+      response.on('end', function( ) {
+        console.log( data );
+        callback( null, JSON.parse( data ) );
+      });
+
+      response.on('error', function( error ) {
+        throw error;
+      });
+
+    }).catch( function( error ) {
+
+      callback( error, null );
+
+    });
+
+  }
+  
+  return {
+
+    fetch: function( callback ) {
+
+      // callback has the form callback( error, links )
+
+      request( 'GET', callback );
+
+    },
+
+    save: function( link, callback ) {
+
+      // callback has the form: callback( error, saved )
+
+      request( 'POST', callback, link );
+
+    }
+
+  };
   
 })
+
 .factory('Auth', function ($http, $location, $window) {
   // Don't touch this Auth service!!!
   // it is responsible for authenticating our user
