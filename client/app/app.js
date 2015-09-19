@@ -9,16 +9,16 @@ angular.module('shortly', [
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider
     .when( '/', {
-      templateUrl: 'app/auth/navigation.html',
-      controller: 'NavigationController'
+      templateUrl: 'app/links/links.html',
+      controller: 'LinksController'
     })
     .when( '/shorten', {
-      templateUrl: 'app/auth/navigation.html',
-      controller: 'NavigationController'
+      templateUrl: 'app/shorten/shorten.html',
+      controller: 'ShortenController'
     })
     .when( '/links', {
-      templateUrl: 'app/auth/navigation.html',
-      controller: 'NavigationController'
+      templateUrl: 'app/links/links.html',
+      controller: 'LinksController'
     })
     .when('/signin', {
       templateUrl: 'app/auth/signin.html',
@@ -52,6 +52,9 @@ angular.module('shortly', [
   return attach;
 })
 .run(function ($rootScope, $location, Auth) {
+  if( !Auth.isAuth() ) {
+    $location.path('/signin');
+  }
   // here inside the run phase of angular, our services and controllers
   // have just been registered and our app is ready
   // however, we want to make sure the user is authorized

@@ -1,4 +1,4 @@
-<div id='container' ng-controller="LinksController">
+<div id='container'>
 
   <div>
 
@@ -13,9 +13,9 @@
 
       <h4 class="title">{{link.title}}</h4>
 
-      <cite class="original">{{link.link}}</cite>
+      <cite class="original">{{link.url}}</cite>
 
-      <a href={{link.url}}>{{link.url}}</a>
+      <a href="api/links/{{link.code}}">{{link.base_url + '/api/links/' + link.code}}</a>
 
     </div>
 

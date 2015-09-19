@@ -1,33 +1,24 @@
 angular.module('shortly.services', [])
 
-.factory('Links', function ($http) {
+.factory('Links', function ($http, $window, AttachTokens ) {
 
-  var request = function( method, callback, data ) {
+  var request = function( method, callback, data, url ) {
 
-    $http({
+    url = url || '/';
+
+    var request = {
 
       'method': method,
 
-      url: 'http://127.0.0.1:8000/',
+      url: '/api/links' + url,
 
       'data': data
 
-    }).then( function( response ) {
+    };
 
-      var data = '';
+    $http(request).then( function( response ) {
 
-      response.on('data', function( chunk ) {
-        data += chunk;
-      });
-
-      response.on('end', function( ) {
-        console.log( data );
-        callback( null, JSON.parse( data ) );
-      });
-
-      response.on('error', function( error ) {
-        throw error;
-      });
+      callback( null, response.data );
 
     }).catch( function( error ) {
 
@@ -35,7 +26,7 @@ angular.module('shortly.services', [])
 
     });
 
-  }
+  };
   
   return {
 
@@ -51,15 +42,17 @@ angular.module('shortly.services', [])
 
       // callback has the form: callback( error, saved )
 
-      request( 'POST', callback, link );
+      request( 'POST', callback, { url: link } );
 
-    }
+    },
+
+    'request': request
 
   };
   
 })
 
-.factory('Auth', function ($http, $location, $window) {
+.factory('Auth', function ($http, $location, $window, $rootScope) {
   // Don't touch this Auth service!!!
   // it is responsible for authenticating our user
   // by exchanging the user's username and password
@@ -74,6 +67,7 @@ angular.module('shortly.services', [])
       data: user
     })
     .then(function (resp) {
+      $rootScope.isAuth = true;
       return resp.data.token;
     });
   };
@@ -85,11 +79,13 @@ angular.module('shortly.services', [])
       data: user
     })
     .then(function (resp) {
+      $rootScope.isAuth = true;
       return resp.data.token;
     });
   };
 
   var isAuth = function () {
+    $rootScope.isAuth = !!$window.localStorage.getItem('com.shortly');
     return !!$window.localStorage.getItem('com.shortly');
   };
 

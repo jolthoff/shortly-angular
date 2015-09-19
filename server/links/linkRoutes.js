@@ -1,5 +1,7 @@
 var linksController = require('./linkController.js');
 
+var helpers = require('../config/helpers.js')
+
 module.exports = function (app) {
   // app === linkRouter injected from middleware.js
 
@@ -9,10 +11,13 @@ module.exports = function (app) {
   // req.navLink before it reaches line 16.
   app.param('code', linksController.findUrl);
 
+  app.get('/:code', linksController.navToLink);
+
+  app.use('/', helpers.decode);
+
   app.route('/')
     .get(linksController.allLinks)
     .post(linksController.newLink);
 
-  app.get('/:code', linksController.navToLink);
 
 };

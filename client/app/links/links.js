@@ -32,13 +32,19 @@ angular.module('shortly.links', [])
 
     return $scope.allLinks.filter(function(link) {
 
-      return link.title.test(new RegExp($scope.filterString)) || 
+      return link.title.match(new RegExp($scope.filterString)) || 
 
-      link.url.test(new RegExp($scope.filterString)) ||
+      link.url.match(new RegExp($scope.filterString)) ||
 
-      link.link.test(new RegExp($scope.filterString));
+      link.code.match(new RegExp($scope.filterString));
 
     });
+
+  };
+
+  $scope.redirect = function( path ) {
+
+    Links.request( 'GET', function( ) {}, null, path );
 
   };
 
