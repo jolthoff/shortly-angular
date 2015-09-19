@@ -1,6 +1,6 @@
 angular.module('shortly.services', [])
 
-.factory('Links', function ($http) {
+.factory('Links', function ($http, $window) {
 
   var request = function( method, callback, data ) {
 
@@ -8,26 +8,19 @@ angular.module('shortly.services', [])
 
       'method': method,
 
-      url: 'http://127.0.0.1:8000/',
+      url: 'http://127.0.0.1:8000/api/links/',
 
-      'data': data
+      'data': data,
+
+      headers: {
+
+        'x-access-token': $window.localStorage.getItem('com.shortly')
+
+      }
 
     }).then( function( response ) {
 
-      var data = '';
-
-      response.on('data', function( chunk ) {
-        data += chunk;
-      });
-
-      response.on('end', function( ) {
-        console.log( data );
-        callback( null, JSON.parse( data ) );
-      });
-
-      response.on('error', function( error ) {
-        throw error;
-      });
+      callback( null, response.data );
 
     }).catch( function( error ) {
 
@@ -35,7 +28,7 @@ angular.module('shortly.services', [])
 
     });
 
-  }
+  };
   
   return {
 
@@ -51,7 +44,7 @@ angular.module('shortly.services', [])
 
       // callback has the form: callback( error, saved )
 
-      request( 'POST', callback, link );
+      request( 'POST', callback, { url: link } );
 
     }
 

@@ -32,7 +32,7 @@ angular.module('shortly.links', [])
 
     return $scope.allLinks.filter(function(link) {
 
-      return link.title.test(new RegExp($scope.filterString)) || 
+      return link.title.match(new RegExp($scope.filterString)) || 
 
       link.url.test(new RegExp($scope.filterString)) ||
 
